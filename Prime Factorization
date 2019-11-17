@@ -1,0 +1,106 @@
+/*
+
+  * THIS WAS A HOMEWORK ASSIGNMENT.
+  * INSTRUCYIONS WERE AS FOLLOWED:
+  
+  The prime factorization of a number is the unique list of prime numbers that, when multiplied, gives the
+  number. For example, the prime factorization of 60 is 2 ∗ 2 ∗ 3 ∗ 5. In this problem you must write code to 
+  recursively find and return the prime factorization of the given number. You must print these in ascending 
+  sorted order with spaces in between.
+  
+  Any solutions that do not use recursion will receive a grade of zero for all categories. (However, there are
+  multiple good recursive solutions that exist for this problem.) Code for reading input and writing output has been
+  provided in the Main class; your job is to complete the factorize() method. You may assume your input number is
+  between 2 and 1,000, inclusive, and you may alter the starting code and/or use helper functions if you like.
+
+*/
+
+
+import java.util.*;
+
+public class Main {
+  
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        // read input number (which will be between 2 and 1000)
+        int number = Integer.parseInt(sc.nextLine());
+       
+        //factor the number into an array of prime factors
+        int[] factors = factorize(number);
+        
+        // print array of factors
+        for (int i = 0; i < factors.length; i++) {
+            System.out.print(factors[i]);
+            if (i != factors.length - 1) {
+                System.out.print(" ");
+            }
+        }
+        
+        System.out.println();
+        
+    }
+    public static boolean primetest(int number){
+
+      if(number<2){
+        return false;
+      }
+      
+      for(int i = 2; i < number; i++){
+        if(number % i == 0){
+          return false;
+        }
+      }
+      return true;
+    }
+    
+    public static int[] factorize (int number) {
+      
+      ArrayList<Integer> primes = new ArrayList<Integer>();
+      
+      if(primetest(number)){
+        primes.add(number);
+      }
+      
+      else{
+      
+        int value = 2;
+        boolean answer = false;
+        while(!answer){
+          if(number % value == 0){
+            factorize(value);
+            primes.add(value);
+            factorize(number/value);
+           
+            int[] tempArray = factorize(number/value);
+            for(int i = 0; i < tempArray.length; i++){
+              primes.add(tempArray[i]);
+            }
+            answer = true;
+          }
+          else{
+            value++;
+          }
+        }
+        
+      }
+      
+      int[] result = conversion(primes);
+      
+      return result;
+       
+    }
+    
+    public static int[] conversion(ArrayList<Integer> primes){
+
+          int[] newArray = new int[primes.size()];
+          Iterator<Integer> iterator = primes.iterator();
+          
+          for (int i = 0; i < newArray.length; i++){
+              newArray[i] = iterator.next().intValue();
+          }
+          
+          return newArray;
+    }
+    
+}
