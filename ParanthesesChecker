@@ -1,0 +1,57 @@
+/*
+  * THIS WAS A HOMEWORK ASSIGNMENT
+  * THE INSTRUCTIONS ARE AS FOLLOWED:
+  
+  Suppose you are given a string containing only the characters ( , ), [, ], {, and }. In this problem,  you 
+  will  write  a  function  to  determine  whether  the  string  has balanced parentheses.  Your algorithm should
+  have a worst-case runtime in O(n).  Additionally, your algorithm should use no more than O(n) space
+  beyond the input; any algorithms that use time or space not in O(n) will receive half credit at most. 
+  Any solutions that hardcode true or false or otherwise try to game the distribution of test cases will receive
+  zero credit. Balanced parentheses means that every open parenthesis has exactly one close parenthesis of the same 
+  type corresponding to it and vice versa, and that for each such pair the opening parenthesis precedes the closed
+  parenthesis.
+/*
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        // Read the input string
+        String input = sc.nextLine();
+            
+        // Print whether the string has balanced parentheses
+        System.out.println(hasBalancedParentheses(input));
+    }
+    
+    public static boolean hasBalancedParentheses(String input) {
+      
+        Stack<Character> myStack = new Stack<Character>();
+        
+        for(int i = 0; i < input.length(); i++){
+          if(input.charAt(i) == '(' || input.charAt(i) == '{' || input.charAt(i) == '['){
+            myStack.push(input.charAt(i));
+          } 
+          else{
+            
+            if(input.isEmpty()){
+              return true;
+            }
+            else if(input.charAt(0) == ')' || input.charAt(0) == ']' || input.charAt(0) == '}'){
+              return false;
+            }
+              else if((input.charAt(i) == ')' && myStack.peek() != '(' || input.charAt(i) == '}' && myStack.peek() != '{' || input.charAt(i) == ']') && myStack.peek() != '['){
+                return false;
+              } 
+                else{
+                  myStack.pop();
+                }
+              }
+            }
+            
+         
+       return myStack.empty();   
+        
+    }
+}
