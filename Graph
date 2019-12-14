@@ -1,0 +1,75 @@
+import java.util.*;
+public class Node {
+  public ArrayList<Node> edges;
+  public char value;
+  public Node(char value) {
+    edges = new ArrayList<>();
+    this.value = value;
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+import java.util.*;
+public class NodeBonus {
+  public ArrayList<NodeEdge> edges;
+  public char value;
+  public NodeBonus(char value) {
+    edges = new ArrayList<>();
+    this.value = value;
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+public class NodeEdge{
+  public NodeBonus end;
+  public int weight;
+  public NodeEdge(NodeBonus end, int weight) {
+    this.end = end;
+    this.weight = weight;
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+  public static boolean dfs (Node start, Node end) {
+    if (start == null) {
+      return false;
+    } else if (start.value == end.value) {
+      return true;
+    } else {
+      for (Node next: start.edges) {
+        if (dfs(next, end)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  // Runs bfs to see if path between start and end exists
+  public static boolean bfs (Node start, Node end) {
+    if (start == null) {
+      return false;
+    }
+    Queue<Node> toExplore = new LinkedList<>();
+    toExplore.add(start);
+    // While not empty
+    while(!toExplore.isEmpty()) {
+      // Take off first
+      Node current = toExplore.poll();
+      // Check it, and then add its children
+      if (current.value == end.value) {
+        return true;
+      }
+      for (Node next: current.edges) {
+        toExplore.add(next);
+      }
+    }
+
+    return false;
+  }
