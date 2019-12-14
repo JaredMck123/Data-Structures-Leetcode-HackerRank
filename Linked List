@@ -1,0 +1,108 @@
+public class MyLinkedList {
+  public MyLinkedListNode first;
+  public MyLinkedListNode last;
+  public int size;
+
+  public MyLinkedList() {
+    size = 0;
+  }
+
+  public void add(String value) {
+    MyLinkedListNode newNode = new MyLinkedListNode(value);
+    if (this.first == null) {
+      this.first = newNode;
+      this.last = newNode;
+      size++;
+      return;
+    }
+    MyLinkedListNode node = this.last;
+    node.next = newNode;
+    newNode.prev = node;
+    this.last = newNode;
+    size++;
+  }
+
+  // Can assume index exists for now...
+  public void set(int index, String newVal) {
+    MyLinkedListNode node = this.first;
+    for (int i = 0; i < index; i++) {
+      node = node.next;
+    }
+    node.val = newVal;
+  }
+
+  // Can assume index exists for now...
+  public String get(int index) {
+    return "";
+  }
+  
+  @Override
+  public String toString() {
+    MyLinkedListNode node = this.first;
+    if (node == null) { 
+      return "";
+    }
+    String start = node.val;
+    while (node.next != null) {
+      node = node.next;
+      start += " " + node.val;
+    }
+    return start;
+  }
+
+  public void remove(int index) {
+    // Find the node
+    MyLinkedListNode node = this.first;
+    for (int i = 0; i < index; i++) {
+      node = node.next;
+    }
+    // Is it the first or last node
+    if (this.first == node) {
+      this.first = node.next;
+    }
+    if (this.last == node) {
+      this.last = node.prev;
+    }
+    // Set up prev and next
+    MyLinkedListNode prevNode = node.prev;
+    MyLinkedListNode nextNode = node.next;
+    if (prevNode != null) {
+      prevNode.next = nextNode;
+    }
+    if (nextNode != null) {
+      nextNode.prev = prevNode;
+    }
+
+    // Clean up node
+    node.prev = null;
+    node.next = null;
+    size--;
+  }
+
+  // Can assume value exists
+  public void remove(String value) {
+
+  }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public class MyLinkedListNode {
+  public MyLinkedListNode next;
+  public MyLinkedListNode prev;
+  public String val;
+
+  public MyLinkedListNode(String val) {
+    this.val = val;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if(!(other instanceof MyLinkedListNode)) {
+      return false;
+    }
+    MyLinkedListNode otherNode = (MyLinkedListNode) other;
+    return this.val.equals(otherNode.val);
+  }
