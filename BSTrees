@@ -1,0 +1,166 @@
+import java.util.*;
+public class Tree {
+  public TreeNode root;
+
+  public void add (int value) {
+    if (root == null) {
+      root = new TreeNode(value);
+      return;
+    }
+    add(root, value);
+  }
+
+  public void add(TreeNode rootNode, int value) {
+    TreeNode newNode = new TreeNode(value);
+    if (value < rootNode.value) {
+      // Go left
+      // Check null, or recurse
+      if (rootNode.left == null) {
+        rootNode.left = newNode;
+      }
+      add(rootNode.left, value);
+    } else if (value > rootNode.value) {
+      // Go right
+      // Check null or recurse
+      if (rootNode.right == null) {
+        rootNode.right = newNode;
+      }
+      add(rootNode.right, value);
+    }
+  }
+
+  public boolean contains(int value) {
+    return contains(root, value);
+  }
+
+  public boolean contains(TreeNode node, int value) {
+    // Base cases, null or equals
+    if (node == null) {
+      return false;
+    } else if (node.value == value) {
+      return true;
+    } else if (node.value > value) {
+      return contains(node.left, value);
+    } else {
+      return contains(node.right, value);
+    }
+
+  }
+
+  // Removes the passed in node from the tree
+  public void remove (int value) {
+    root = remove(root, value);
+  }
+
+  public TreeNode remove (TreeNode node, int value) {
+    if (node == null) {
+      return node;
+    }
+    // recurse left or right
+    if (value < node.value) {
+      node.left = remove(node.left, value);
+    } else if (value > node.value) {
+      node.right = remove(node.right, value);
+    } else {
+      // then check 0, 1, or 2 kids
+      if (node.left == null) {
+        return node.right;
+      } else if (node.right == null) {
+        return node.left;
+      } else {
+        node.value = findMin(node.right);
+        node.right = remove(node.right, node.value);
+      }
+    }
+    return node;
+  }
+
+  public int findMin(TreeNode node) {
+    while (node.left != null) {
+      node = node.left;
+    }
+    return node.value;
+  }
+
+  public void print() {
+    if (root != null) {
+      root.print(0, "");
+    }
+  }
+
+  public void preOrder(TreeNode node) {
+    if (node == null) {
+      return;
+    }
+    System.out.print(node.value);
+    preOrder(node.left);
+    preOrder(node.right);
+  }
+
+  public void inOrder(TreeNode node) {
+    if (node == null) {
+      return;
+    }
+    inOrder(node.left);
+    System.out.print(node.value);
+    inOrder(node.right);
+  }
+
+  public void postOrder(TreeNode node) {
+    if (node == null) {
+      return;
+    }
+    postOrder(node.left);
+    postOrder(node.right);
+    System.out.print(node.value);
+  }
+
+  public void levelOrder(TreeNode node) {
+    if (node == null) {
+      return;
+    }
+    Queue<TreeNode> nodeQueue = new ArrayDeque<>();
+    nodeQueue.add(node);
+    while(!nodeQueue.isEmpty()){
+      TreeNode nextNode = nodeQueue.remove();
+      System.out.print(nextNode.value);
+      if (nextNode.left != null) {
+        nodeQueue.add(nextNode.left);
+      }
+      if (nextNode.right != null) {
+        nodeQueue.add(nextNode.right);
+      }
+    }
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+public class TreeNode {
+  public int value;
+  public TreeNode left;
+  public TreeNode right;
+  public TreeNode (int startValue) {
+    this.value = startValue;
+  }
+
+  // Prints tree starting at this TreeNode
+  // Level is indentation
+  public void print(int level, String prefix) {
+    String indent = "  ";
+    String x = "";
+    for (int i = 0; i < level; i++) {
+      x += indent;
+    }
+    x = x + prefix + value;
+
+    System.out.println(x);
+    if (this.left != null) {
+      this.left.print(level+1, "L: ");
+    }
+    if (this.right != null) {
+      this.right.print(level+1, "R: ");
+    }
+  }
+}
