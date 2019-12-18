@@ -1,0 +1,48 @@
+//
+ You are working a job where you need to constantly sort lists. Your manager says you need to sort one more
+ for you to be done for the day, so you want to pick an array that’s as close to sorted as possible. You define
+ the term k-close to sorted. For the purposes of this problem, we will say that a list of integers is k-close to
+ sorted if every integer is at most k indices away from the index it would be in in a sorted list.
+
+Once you know this information, sorting is significantly easier than before. In this problem, you will write
+a program that takes in a list of integers that is k-close to sorted and outputs the sorted list. 
+(“Sorted” refers to being sorted in ascending order for this problem.) Input will be given as an integer k on 
+its own line, followed by a space separated list of integers.  Your program should output the sorted list. 
+For example, if you are given the following input:
+
+2
+3 2 1 6 4 5 7 9 8 12 10 11
+
+then you should print:
+
+1 2 3 4 5 6 7 8 9 10 11 12
+
+The code for reading input and writing output has been provided in the Main class; your job is to implement the
+sort() method.
+ 
+//
+ 
+ public static void sort(int[] numbers, int k) {
+        
+        MinHeap heap = new MinHeap();
+  
+    		for(int i = 0; i <= k && i < numbers.length; i++){
+    			heap.insert(numbers[i]);
+    		}
+    		
+    		
+    		 for(int i = k+1, j = 0; j < numbers.length; i++, j++){
+            
+            	if(i < numbers.length){
+            		int min = heap.extractMin();
+            		numbers[j] = min;
+            		heap.insert(numbers[i]);
+            	}
+                	
+            
+            	else{
+            		int min = heap.extractMin();
+            		numbers[j] = min;
+            	}
+        }
+  }
